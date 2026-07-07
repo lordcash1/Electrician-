@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abraham Electrician — Licensed Electrical Services</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#12151A;
+    --panel:#1B2028;
+    --panel-2:#20262F;
+    --line:#2C3340;
+    --text:#ECE9E2;
+    --text-dim:#A7ADB8;
+    --spark:#F5C518;
+    --spark-dim:#8a6f1a;
+    --copper:#C97C4B;
+    --trust:#4CAF6D;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  .eyebrow{
+    font-family:'Space Grotesk', sans-serif;
+    text-transform:uppercase;
+    letter-spacing:0.18em;
+    font-size:0.72rem;
+    color:var(--spark);
+    font-weight:600;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  button{font-family:inherit;}
+
+  :focus-visible{
+    outline:2px solid var(--spark);
+    outline-offset:3px;
+  }
+
+  /* ---------- circuit trace divider ---------- */
+  .trace{
+    position:relative;
+    height:28px;
+    width:100%;
+  }
+  .trace svg{width:100%;height:100%;display:block;}
+  .trace path{
+    fill:none;
+    stroke:var(--line);
+    stroke-width:2;
+  }
+  .trace circle{fill:var(--spark);}
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 6vw;
+    background:rgba(18,21,26,0.9);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .logo-link{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    cursor:pointer;
+    border-radius:10px;
+    padding:4px 8px;
+    margin:-4px -8px;
+    transition:background .2s ease;
+  }
+  .logo-link:hover, .logo-link:focus-visible{
+    background:var(--panel-2);
+  }
+  .logo-mark{width:42px;height:42px;flex:none;}
+  .logo-text{display:flex;flex-direction:column;line-height:1.1;}
+  .logo-text .name{font-family:'Space Grotesk';font-weight:700;font-size:1.05rem;letter-spacing:-0.01em;}
+  .logo-text .tag{font-size:0.66rem;color:var(--text-dim);letter-spacing:0.06em;text-transform:uppercase;}
+  nav{display:flex;gap:28px;font-size:0.9rem;color:var(--text-dim);}
+  nav a:hover{color:var(--text);}
+  .call-btn{
+    background:var(--spark);
+    color:#191204;
+    padding:10px 18px;
+    border-radius:8px;
+    font-weight:600;
+    font-size:0.88rem;
+    white-space:nowrap;
+  }
+  .call-btn:hover{background:#ffd54a;}
+  @media (max-width:720px){ nav{display:none;} }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    padding:90px 6vw 70px;
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:48px;
+    align-items:center;
+    background:
+      radial-gradient(ellipse at 80% 0%, rgba(245,197,24,0.08), transparent 55%),
+      var(--bg);
+    border-bottom:1px solid var(--line);
+  }
+  @media (max-width:860px){ .hero{grid-template-columns:1fr;padding-top:56px;} }
+
+  .hero h1{
+    font-size:clamp(2.2rem, 4.4vw, 3.6rem);
+    line-height:1.05;
+  }
+  .hero h1 .spark-word{color:var(--spark);}
+  .hero p.lede{
+    margin-top:18px;
+    max-width:46ch;
+    color:var(--text-dim);
+    font-size:1.05rem;
+  }
+  .hero-ctas{margin-top:30px;display:flex;gap:14px;flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--spark);
+    color:#191204;
+    padding:14px 24px;
+    border-radius:8px;
+    font-weight:600;
+    border:none;
+  }
+  .btn-primary:hover{background:#ffd54a;}
+  .btn-ghost{
+    border:1px solid var(--line);
+    padding:14px 24px;
+    border-radius:8px;
+    font-weight:600;
+    color:var(--text);
+    background:transparent;
+  }
+  .btn-ghost:hover{border-color:var(--spark);color:var(--spark);}
+
+  .trust-row{
+    margin-top:34px;
+    display:flex;
+    gap:22px;
+    flex-wrap:wrap;
+    font-size:0.82rem;
+    color:var(--text-dim);
+  }
+  .trust-row span{display:flex;align-items:center;gap:7px;}
+  .trust-row .dot{width:6px;height:6px;border-radius:50%;background:var(--trust);}
+
+  /* ---------- switch panel graphic ---------- */
+  .panel-graphic{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:26px;
+    position:relative;
+  }
+  .panel-graphic .panel-label{
+    font-family:'Space Grotesk';
+    font-size:0.72rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--text-dim);
+    margin-bottom:16px;
+    display:flex;
+    justify-content:space-between;
+  }
+  .breaker-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+  }
+  .breaker{
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:6px;
+    height:54px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+  }
+  .breaker .switch{
+    width:8px;
+    height:22px;
+    border-radius:3px;
+    background:#4a5262;
+    transition:background .4s ease, box-shadow .4s ease, transform .4s ease;
+  }
+  .breaker.on .switch{
+    background:var(--spark);
+    box-shadow:0 0 12px 2px rgba(245,197,24,0.55);
+    transform:translateY(-2px);
+  }
+  .panel-caption{
+    margin-top:16px;
+    font-size:0.78rem;
+    color:var(--text-dim);
+  }
+
+  /* ---------- section shell ---------- */
+  section{padding:76px 6vw;}
+  .section-head{max-width:60ch;margin-bottom:44px;}
+  .section-head h2{font-size:clamp(1.6rem,2.6vw,2.2rem);margin-top:10px;}
+  .section-head p{color:var(--text-dim);margin-top:12px;}
+
+  /* ---------- services ---------- */
+  .services{background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .service-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:18px;
+  }
+  .service-card{
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:22px;
+    transition:border-color .2s ease, transform .2s ease;
+  }
+  .service-card:hover{border-color:var(--copper);transform:translateY(-3px);}
+  .service-card .icon{
+    width:34px;height:34px;
+    margin-bottom:14px;
+    color:var(--spark);
+  }
+  .service-card h3{font-size:1.02rem;font-weight:600;margin-bottom:6px;}
+  .service-card p{font-size:0.87rem;color:var(--text-dim);}
+
+  /* ---------- gallery / about ---------- */
+  .gallery{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+    align-items:center;
+  }
+  @media (max-width:860px){ .gallery{grid-template-columns:1fr;} }
+  .photo-frame{
+    border-radius:16px;
+    overflow:hidden;
+    border:1px solid var(--line);
+    background:var(--panel);
+    aspect-ratio:4/3;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+  }
+  .photo-frame svg{width:100%;height:100%;}
+  .photo-caption{
+    margin-top:12px;
+    font-size:0.8rem;
+    color:var(--text-dim);
+    text-align:center;
+  }
+  .about-copy h2{font-size:clamp(1.6rem,2.6vw,2.2rem);margin-bottom:16px;}
+  .about-copy p{color:var(--text-dim);margin-bottom:14px;}
+  .stat-row{display:flex;gap:32px;margin-top:26px;flex-wrap:wrap;}
+  .stat-row div{display:flex;flex-direction:column;}
+  .stat-row .num{font-family:'Space Grotesk';font-weight:700;font-size:1.7rem;color:var(--spark);}
+  .stat-row .label{font-size:0.78rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;}
+
+  /* ---------- reviews ---------- */
+  .reviews{background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .review-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:20px;
+  }
+  .review-card{
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:24px;
+  }
+  .stars{color:var(--spark);font-size:0.95rem;letter-spacing:2px;margin-bottom:12px;}
+  .review-card p.quote{font-size:0.92rem;color:var(--text);margin-bottom:16px;}
+  .reviewer{display:flex;align-items:center;gap:10px;}
+  .avatar{
+    width:34px;height:34px;border-radius:50%;
+    background:linear-gradient(135deg,var(--copper),var(--spark));
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Space Grotesk';font-weight:700;font-size:0.8rem;color:#191204;
+  }
+  .reviewer .who{font-size:0.85rem;font-weight:600;}
+  .reviewer .job{font-size:0.75rem;color:var(--text-dim);}
+  .review-note{
+    margin-top:28px;
+    font-size:0.8rem;
+    color:var(--text-dim);
+    text-align:center;
+  }
+
+  /* ---------- CTA band ---------- */
+  .cta-band{
+    text-align:center;
+    padding:80px 6vw;
+  }
+  .cta-band h2{font-size:clamp(1.6rem,3vw,2.3rem);margin-bottom:14px;}
+  .cta-band p{color:var(--text-dim);max-width:50ch;margin:0 auto 28px;}
+
+  /* ---------- footer ---------- */
+  footer{
+    padding:44px 6vw 30px;
+    border-top:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:24px;
+    font-size:0.85rem;
+    color:var(--text-dim);
+  }
+  footer .f-logo{display:flex;align-items:center;gap:10px;color:var(--text);font-family:'Space Grotesk';font-weight:700;}
+  footer .f-logo svg{width:26px;height:26px;}
+  .foot-links{display:flex;gap:26px;flex-wrap:wrap;}
+  .foot-links a:hover{color:var(--spark);}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation:none !important; transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo-link" href="#gallery" aria-label="Abraham Electrician — go to photo of the business">
+    <svg class="logo-mark" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="1" y="1" width="46" height="46" rx="10" fill="#20262F" stroke="#2C3340" stroke-width="1.5"/>
+      <path d="M26 8 L15 26 H22.5 L20 40 L34 20 H26.5 L26 8 Z" fill="#F5C518"/>
+    </svg>
+    <span class="logo-text">
+      <span class="name">Abraham Electrician</span>
+      <span class="tag">Licensed &amp; Insured</span>
+    </span>
+  </a>
+  <nav>
+    <a href="#services">Services</a>
+    <a href="#gallery">About</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <a class="call-btn" href="tel:+234901439957">Call for a Quote</a>
+</header>
+
+<section class="hero">
+  <div>
+    <p class="eyebrow">Residential &amp; Commercial Electrical</p>
+    <h1>Wired right, <span class="spark-word">the first time.</span></h1>
+    <p class="lede">Abraham Electrician handles everything from a single flickering switch to a full panel upgrade — clean work, fair pricing, and a crew that shows up when they say they will.</p>
+    <div class="hero-ctas">
+      <a class="btn-primary" href="tel:+2349014399757">Call Now</a>
+      <a class="btn-ghost" href="#contact">Get a Free Quote</a>
+    </div>
+    <div class="trust-row">
+      <span><span class="dot"></span>Licensed &amp; Insured</span>
+      <span><span class="dot"></span>Upfront Pricing</span>
+      <span><span class="dot"></span>Emergency Calls Welcome</span>
+    </div>
+  </div>
+
+  <div class="panel-graphic" aria-hidden="true">
+    <div class="panel-label"><span>Service Panel</span><span>200A</span></div>
+    <div class="breaker-grid" id="breakerGrid"></div>
+    <p class="panel-caption">Every job passes through the same checklist as this panel — inspected, labeled, and switched on safely.</p>
+  </div>
+</section>
+
+<div class="trace"><svg viewBox="0 0 1200 28" preserveAspectRatio="none"><path d="M0 14 H500 L520 4 L540 24 L560 14 H1200"/><circle cx="520" cy="4" r="3.5"/><circle cx="560" cy="14" r="3.5"/></svg></div>
+
+<section class="services" id="services">
+  <div class="section-head">
+    <p class="eyebrow">What Abraham Electrician Does</p>
+    <h2>Full-service electrical work, done to code.</h2>
+    <p>From small repairs to whole-home rewiring, here's the work we handle every week.</p>
+  </div>
+  <div class="service-grid">
+
+    <div class="service-card">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M13 2 L4 14h6l-1 8 9-12h-6l1-8z"/></svg>
+      <h3>Wiring &amp; Rewiring</h3>
+      <p>New circuit runs, whole-home rewires, and fixing outdated or unsafe wiring behind the walls.</p>
+    </div>
+
+    <div class="service-card">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>
+      <h3>Panel Upgrades &amp; Breaker Boxes</h3>
+      <p>Replacing old fuse boxes, upgrading amperage, and installing new circuit breakers safely.</p>
+    </div>
+
+    <div class="service-card">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="10" r="6"/><path d="M9 21h6M10 17l-1 4M14 17l1 4"/></svg>
+      <h3>Lighting Installation</h3>
+      <p>Recessed lighting, chandeliers, outdoor fixtures, and dimmer switches installed and wired properly.</p>
+    </div>
+
+    <div class="service-card">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="7" y="4" width="10" height="16" rx="2"/><circle cx="10" cy="12" r="1"/></svg>
+      <h3>Outlet &amp; Switch Repair</h3>
+      <p>Replacing worn outlets, adding GFCI protection, and fixing switches that spark, buzz, or don't work.</p>
+    </div>
+
+    <div class="service-card">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="2"/><path d="M12 4v2M12 18v2M4 12h2M18 12h2M6.3 6.3l1.4 1.4M16.3 16.3l1.4 1.4M6.3 17.7l1.4-1.4M16.3 7.7l1.4-1.4"/></svg>
+      <h3>Ceiling Fan Installation</h3>
+      <p>Mounting and wiring ceiling fans, including adding new switches or remote controls.</p>
+    </div>
+
+    <div class="service-card">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="9" width="12" height="9" rx="1"/><path d="M15 12h3l2-3v6l-2-3M6 9V6a3 3 0 0 1 3-3h0"/></svg>
+      <h3>EV Charger Installation</h3>
+      <p>Dedicated circuits and Level 2 charger installs for home electric vehicle charging.</p>
+    </div>
+
+    <div class="service-card">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="7" width="14" height="12" rx="2"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg>
+      <h3>Generator Installation &amp; Hookup</h3>
+      <p>Backup generator wiring and transfer switch installation so the power stays on when it matters.</p>
+    </div>
+
+    <div class="service-card">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12a8 8 0 1 1 3 6.2"/><path d="M4 18v-4h4"/></svg>
+      <h3>Troubleshooting &amp; Repairs</h3>
+      <p>Tracking down flickering lights, tripped breakers, dead outlets, and other electrical gremlins.</p>
+    </div>
+
+    <div class="service-card">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+      <h3>Code Compliance &amp; Inspections</h3>
+      <p>Bringing older homes up to current electrical code and prepping panels for inspection or resale.</p>
+    </div>
+
+    <div class="service-card">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M13 2 L4 14h6l-1 8 9-12h-6l1-8z" opacity="0.5"/><circle cx="12" cy="12" r="10" stroke-dasharray="2 3"/></svg>
+      <h3>Surge Protection</h3>
+      <p>Whole-house surge protectors to keep appliances and electronics safe from power spikes.</p>
+    </div>
+
+    <div class="service-card">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="7"/><path d="M12 9v3l2 2"/></svg>
+      <h3>Smoke &amp; CO Detector Installation</h3>
+      <p>Hardwired smoke and carbon monoxide detectors installed and interconnected for safety.</p>
+    </div>
+
+    <div class="service-card">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 21V9l8-6 8 6v12"/><path d="M9 21v-6h6v6"/></svg>
+      <h3>Residential &amp; Commercial Wiring</h3>
+      <p>New construction, remodels, and commercial tenant build-outs wired from the ground up.</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="gallery" id="gallery">
+  <div class="photo-frame">
+    <!-- Replace this SVG with an actual photo of the business/work by swapping this element
+         for: <img src="your-photo.jpg" alt="Abraham Electrician at work"> -->
+    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of an electrician working on an open service panel">
+      <rect width="400" height="300" fill="#1B2028"/>
+      <rect x="0" y="220" width="400" height="80" fill="#171B21"/>
+      <rect x="150" y="60" width="100" height="140" rx="4" fill="#2A313D" stroke="#3A4351" stroke-width="2"/>
+      <g stroke="#4a5262" stroke-width="6" stroke-linecap="round">
+        <line x1="170" y1="80" x2="170" y2="110"/>
+        <line x1="190" y1="80" x2="190" y2="110"/>
+        <line x1="210" y1="80" x2="210" y2="110"/>
+        <line x1="230" y1="80" x2="230" y2="110"/>
+      </g>
+      <g stroke="#F5C518" stroke-width="6" stroke-linecap="round">
+        <line x1="170" y1="130" x2="170" y2="150"/>
+        <line x1="210" y1="130" x2="210" y2="150"/>
+      </g>
+      <circle cx="270" cy="120" r="34" fill="#C97C4B" opacity="0.15"/>
+      <circle cx="270" cy="120" r="26" fill="#20262F" stroke="#C97C4B" stroke-width="2"/>
+      <path d="M275 105 L262 122 H272 L266 138 L282 118 H272 Z" fill="#F5C518"/>
+      <ellipse cx="150" cy="230" rx="26" ry="30" fill="#D9A066"/>
+      <rect x="122" y="245" width="56" height="60" fill="#2A313D"/>
+      <rect x="110" y="180" width="80" height="70" rx="10" fill="#3A4351"/>
+    </svg>
+  </div>
+  <div class="about-copy">
+    <p class="eyebrow">The Business</p>
+    <h2>Meet Abraham Electrician</h2>
+    <p>Abraham Electrician is a locally owned electrical contracting business built on one idea: do the job right, explain it clearly, and leave every panel safer than we found it.</p>
+    <p>Every project — whether it's a single outlet or a full rewire — gets the same attention to detail, clean workmanship, and respect for your home or business.</p>
+    <div class="stat-row">
+      <div><span class="num">15+</span><span class="label">Years Experience</span></div>
+      <div><span class="num">100%</span><span class="label">Licensed &amp; Insured</span></div>
+      <div><span class="num">24/7</span><span class="label">Emergency Calls</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="trace"><svg viewBox="0 0 1200 28" preserveAspectRatio="none"><path d="M0 14 H640 L660 24 L680 4 L700 14 H1200"/><circle cx="660" cy="24" r="3.5"/><circle cx="700" cy="14" r="3.5"/></svg></div>
+
+<section class="reviews" id="reviews">
+  <div class="section-head">
+    <p class="eyebrow">Why Customers Trust Us</p>
+    <h2>What people are saying</h2>
+    <p>Real feedback from homeowners and businesses Abraham Electrician has worked with.</p>
+  </div>
+  <div class="review-grid">
+
+    <div class="review-card">
+      <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+      <p class="quote">Our panel upgrade was done in a day, everything was labeled clearly, and the crew cleaned up like they were never there. Straightforward pricing too.</p>
+      <div class="reviewer">
+        <div class="avatar">M</div>
+        <div><div class="who">Maria T.</div><div class="job">P
